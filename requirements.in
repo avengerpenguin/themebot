@@ -1,0 +1,8 @@
+pip-tools
+testcontainers
+pytest
+pytest-pikachu
+pytest-bdd
+pytest-xdist
+langchain-community
+cffi

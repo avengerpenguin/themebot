@@ -1,0 +1,5 @@
+.direnv
+.idea
+.ollama
+__pycache__
+venv
