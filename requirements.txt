@@ -28,6 +28,8 @@ docker==7.0.0
     # via testcontainers
 execnet==2.1.1
     # via pytest-xdist
+filelock==3.13.4
+    # via -r requirements.in
 frozenlist==1.4.1
     # via
     #   aiohttp
@@ -46,9 +48,9 @@ jsonpointer==2.4
     # via jsonpatch
 langchain-community==0.0.34
     # via -r requirements.in
-langchain-core==0.1.45
+langchain-core==0.1.46
     # via langchain-community
-langsmith==0.1.50
+langsmith==0.1.51
     # via
     #   langchain-community
     #   langchain-core
@@ -98,7 +100,7 @@ pyproject-hooks==1.0.0
     # via
     #   build
     #   pip-tools
-pytest==8.1.1
+pytest==8.2.0
     # via
     #   -r requirements.in
     #   pytest-bdd
@@ -108,7 +110,7 @@ pytest-bdd==7.1.2
     # via -r requirements.in
 pytest-pikachu==1.0.0
     # via -r requirements.in
-pytest-xdist==3.5.0
+pytest-xdist==3.6.1
     # via -r requirements.in
 pyyaml==6.0.1
     # via

@@ -1,41 +1,6 @@
-import pathlib
 from textwrap import dedent
-from typing import Generator
 
-import pytest
-from langchain_community.llms import Ollama
 from langchain_core.language_models import BaseLLM
-from testcontainers.core.container import DockerContainer
-
-OLLAMA_PORT = 11434
-MODELS = {
-    "openchat",
-    "llama3",
-}
-
-
-@pytest.fixture(scope="session")
-def ollama_url() -> Generator[str, None, None]:
-    data_dir = pathlib.Path(__file__).parent / ".ollama"
-    with DockerContainer("ollama/ollama:latest").with_exposed_ports(
-        OLLAMA_PORT
-    ).with_volume_mapping(str(data_dir), "/root/.ollama", "rw") as container:
-        lib_dir = data_dir / "models" / "manifests" / "registry.ollama.ai" / "library"
-
-        if lib_dir.exists():
-            installed_models = {str(p.name) for p in lib_dir.iterdir()}
-        else:
-            installed_models = set()
-
-        for model in MODELS - installed_models:
-            container.exec(f"ollama pull {model}")
-
-        yield f"http://localhost:{container.get_exposed_port(11434)}"
-
-
-@pytest.fixture(params=sorted(MODELS), scope="session")
-def llm(request, ollama_url: str) -> BaseLLM:
-    return Ollama(model=request.param, base_url=ollama_url)
 
 
 def test_naming(llm: BaseLLM):

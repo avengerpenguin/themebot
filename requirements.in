@@ -6,3 +6,4 @@ pytest-bdd
 pytest-xdist
 langchain-community
 cffi
+filelock
