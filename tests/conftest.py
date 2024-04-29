@@ -14,6 +14,10 @@ MODELS = {
 }
 
 
+def pytest_addoption(parser):
+    parser.addoption("--url", action="store")
+
+
 def start_ollama(url_file: pathlib.Path = None) -> Generator[str, None, None]:
     data_dir = pathlib.Path(__file__).parent / ".ollama"
     with DockerContainer("ollama/ollama:latest").with_exposed_ports(
@@ -39,8 +43,11 @@ def start_ollama(url_file: pathlib.Path = None) -> Generator[str, None, None]:
 
 
 @pytest.fixture(scope="session")
-def ollama_url(tmp_path_factory, worker_id) -> Generator[str, None, None]:
-    if worker_id == "master":
+def ollama_url(request, tmp_path_factory, worker_id) -> Generator[str, None, None]:
+    url = request.config.option.url
+    if url:
+        yield url
+    elif worker_id == "master":
         yield from start_ollama()
     else:
         root_tmp_dir = tmp_path_factory.getbasetemp().parent
